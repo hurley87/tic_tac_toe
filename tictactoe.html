@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <style type="text/css">
+           .game {
+              width: 90%;
+              margin: auto;
+           } 
+           .row {
+              height: 160px;    
+              width: 100%;
+           }
+
+           .box {
+              height: 150px;
+              width: 150px;
+              display: inline-block;
+              background-color: black;
+              opacity: 0.5;
+              border: 3px solid white;
+              background-repeat: no-repeat;
+              background-position: center;
+           }
+           .box.x {
+              background-image: url(x.jpeg);
+           }
+           .box.o {
+              background-image: url(o.jpeg);
+           }
+
+           h1 {
+            color: black;
+           }
+
+        
+    </style>
+  </head>
+
+  <body>
+    <h1>Tic Tac Toe</h1>
+    <div class="game"></div>
+
+    
+    <script type="text/javascript">
+
+      function createBoard() {
+
+          for (var x = 0; x <= 2; x++) {
+              $('.game').append('<div class="row"></div>');
+              for (var i = 0; i <= 2; i++) {
+                  $($('.game').children()[x]).append('<div class="box"></div>');
+              }
+            }
+
+      }
+
+      function addLetter() {
+        $this = $(this)
+        if (!$this.hasClass('x') && !$this.hasClass('o')) {
+          if (currentClick % 2 === 0) {
+            $this.addClass("x");
+          } else {
+            $this.addClass("o");
+          }
+          if (currentClick === 9) {
+            $('.box').off('click');
+          }
+          currentClick++;
+        }
+      }
+
+      $(document).ready(function() {
+          createBoard();
+          window.currentClick = 0;
+          $('.box').on('click', addLetter);
+      });
+
+
+    </script>
+  </body>
+</html>
+
+
