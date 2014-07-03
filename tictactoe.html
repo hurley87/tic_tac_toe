@@ -6,7 +6,7 @@
     <style type="text/css">
            .game {
               width: 90%;
-              margin: auto;
+              margin: 0 auto;
            } 
            .row {
               height: 160px;    
@@ -23,10 +23,10 @@
               background-repeat: no-repeat;
               background-position: center;
            }
-           .box.x {
+           .box.X {
               background-image: url(x.jpeg);
            }
-           .box.o {
+           .box.O {
               background-image: url(o.jpeg);
            }
 
@@ -40,6 +40,7 @@
 
   <body>
     <h1>Tic Tac Toe</h1>
+    <h3 class="player">X's Turn</h3>
     <div class="game"></div>
 
     
@@ -53,28 +54,77 @@
                   $($('.game').children()[x]).append('<div class="box"></div>');
               }
             }
-
       }
 
       function addLetter() {
         $this = $(this)
-        if (!$this.hasClass('x') && !$this.hasClass('o')) {
+        if (!$this.hasClass('X') && !$this.hasClass('O')) {
           if (currentClick % 2 === 0) {
-            $this.addClass("x");
+            $this.addClass("X");
+            $('.player').text("O's turn");
           } else {
-            $this.addClass("o");
+            $this.addClass("O");
+            $('.player').text("X's turn");
           }
           if (currentClick === 9) {
             $('.box').off('click');
           }
           currentClick++;
         }
+          checkWin("X");
+          checkWin("O");
+          if (currentClick === 9 && $('.player').text("O's turn")) {
+            $('.player').text("Draw!");
+          }
+
+      }
+
+      function checkWin(l) {
+
+        var topRow = check(0,1,2,l);
+        var middleRow = check(3,4,5,l);
+        var bottomRow = check(6,7,8,l);
+        var leftColumn = check(0,3,6,l);
+        var middleColumn = check(1,4,7,l);
+        var rightColumn = check(2,5,8,l);
+        var diagonal1 = check(0,4,8,l);
+        var diagonal2 = check(2,4,6,l);
+        
+         if(topRow) {
+            winner(l);
+         } else if(middleRow) {
+            winner(l);
+         } else if(bottomRow) {
+            winner(l);
+         } else if(leftColumn) {
+            winner(l);
+         } else if(middleColumn) {
+            winner(l);
+         } else if(rightColumn) {
+            winner(l);
+         } else if(diagonal1) {
+            winner(l);
+         } else if(diagonal2) {
+            winner(l);
+         }
+
+      }
+
+      function check(n1, n2, n3, l) {
+          $box = $('.box'); 
+          return $box.eq(n1).hasClass(l) && $box.eq(n2).hasClass(l) && $box.eq(n3).hasClass(l);
+      }
+
+      function winner(l) {
+            $('.game').fadeOut(500);
+            $('.player').fadeIn(500).text(l + " Wins");
       }
 
       $(document).ready(function() {
           createBoard();
           window.currentClick = 0;
           $('.box').on('click', addLetter);
+
       });
 
 
