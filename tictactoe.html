@@ -34,6 +34,10 @@
             color: black;
            }
 
+           .blue-back {
+              background-color: blue;
+           }
+
         
     </style>
   </head>
@@ -66,11 +70,16 @@
             $this.addClass("O");
             $('.player').text("X's turn");
           }
+
+          // $this.addClass(currentTurn);
+          // $('.player').text(currentTurn+"'s turn");
+
           if (currentClick === 9) {
             $('.box').off('click');
           }
           currentClick++;
         }
+          
           checkWin("X");
           checkWin("O");
           if (currentClick === 9 && $('.player').text("O's turn")) {
@@ -79,7 +88,24 @@
 
       }
 
-      function checkWin(l) {
+       function checkWin(l) {
+
+      //   conditions = {
+      //     topRow: [0,1,2]
+      //     middleRow: [3,4,5]
+      //     bottomRow: [6,7,8]
+      //     leftColumn: [036]
+
+      //   }
+
+      //   for (var condition in conditions){
+      //     if check(conditions[condition], l) {
+      //       winner(l);
+      //       break;
+      //     }
+      //   }
+
+
 
         var topRow = check(0,1,2,l);
         var middleRow = check(3,4,5,l);
@@ -91,20 +117,28 @@
         var diagonal2 = check(2,4,6,l);
         
          if(topRow) {
+            changeBG(0,1,2);
             winner(l);
          } else if(middleRow) {
+            changeBG(3,4,5);
             winner(l);
          } else if(bottomRow) {
+            changeBG(6,7,8);
             winner(l);
          } else if(leftColumn) {
+            changeBG(0,3,6);
             winner(l);
          } else if(middleColumn) {
+            changeBG(1,4,7);
             winner(l);
          } else if(rightColumn) {
+            changeBG(2,5,8);
             winner(l);
          } else if(diagonal1) {
+            changeBG(0,4,8);
             winner(l);
          } else if(diagonal2) {
+            changeBG(2,4,6);
             winner(l);
          }
 
@@ -115,8 +149,12 @@
           return $box.eq(n1).hasClass(l) && $box.eq(n2).hasClass(l) && $box.eq(n3).hasClass(l);
       }
 
+      function changeBG(a,b,c) {
+        $box.eq(a).addClass("blue-back") && $box.eq(b).addClass("blue-back") && $box.eq(c).addClass("blue-back");
+      }
+
       function winner(l) {
-            $('.game').fadeOut(500);
+            $('.box').off('click');
             $('.player').fadeIn(500).text(l + " Wins");
       }
 
